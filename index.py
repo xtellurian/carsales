@@ -1,13 +1,21 @@
 import csv
 
+from upload import uploadfile
 from parse import parse
 from model import ItemListElement
+from datetime import date
 
-sales = parse(100)
+today=date.today()
 
-print(f'Got {len(sales.main_entity.item_list_element)} items')
+filename=f'data/{today}.csv'
+items=[]
+for i in range(10):
+    sales = parse(i*12)
+    items.extend(sales.main_entity.item_list_element)
 
-for e in sales.main_entity.item_list_element:
+print(f'Got {len(items)} items')
+
+for e in items:
     print(f'Name: {e.item.name}')
     print(f'Year: {e.item.name[0:4]}')
     print(e.item.model)
@@ -17,13 +25,15 @@ for e in sales.main_entity.item_list_element:
     print('------------------------')
 
 def save_to_csv(cars: [ItemListElement]):
-    with open("test.csv","w",newline="") as csvfile:
+    with open(filename,"w",newline="") as csvfile:
         writer=csv.writer(csvfile,delimiter=",")
+        writer.writerow(["Name","URL","Year","Odo","Price"])
         for car in cars:
-            print(f'{car.item.name},{car.item.name[0:4]},{car.item.mileage_from_odometer.value},{car.item.offers.price}')
-            line=[car.item.name,car.item.name[0:4],car.item.mileage_from_odometer.value,car.item.offers.price]
+            line=[car.item.name,car.item.url,car.item.name[0:4],car.item.mileage_from_odometer.value,car.item.offers.price]
             writer.writerow(line)
    
 
 
-save_to_csv(sales.main_entity.item_list_element)
+save_to_csv(items)
+
+uploadfile(filename)
