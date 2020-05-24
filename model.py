@@ -148,7 +148,7 @@ class MileageFromOdometer:
         assert isinstance(obj, dict)
         type = MileageFromOdometerType(obj.get("@type"))
         unit_code = UnitCode(obj.get("unitCode"))
-        value = int(from_str(obj.get("value")))
+        value = int(from_str(obj.get("value"))) if str.isnumeric(from_str(obj.get("value"))) else -1
         return MileageFromOdometer(type, unit_code, value)
 
     def to_dict(self) -> dict:

@@ -1,6 +1,9 @@
 from parse import parse
 
-sales = parse()
+sales = parse(100)
+
+print(f'Got {len(sales.main_entity.item_list_element)} items')
+
 for e in sales.main_entity.item_list_element:
     print(f'Name: {e.item.name}')
     print(f'Year: {e.item.name[0:4]}')
