@@ -8,8 +8,8 @@ def parse(offset: int = None)-> model.CarSales:
     soup = BeautifulSoup(html_doc, 'html.parser')
 
     scripts = soup.find_all('script', type="application/ld+json")
-    if len(scripts) != 1:
-        raise Error("Wrong number of scripts")
+    if len(scripts) == 0:
+        raise Exception("No scripts fuund with type application/ld+json")
 
     script = scripts[0]
     data = json.loads(script.string)
