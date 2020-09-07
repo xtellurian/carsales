@@ -9,7 +9,7 @@ def parse(offset: int = None)-> model.CarSales:
 
     scripts = soup.find_all('script', type="application/ld+json")
     if len(scripts) == 0:
-        raise Exception("No scripts fuund with type application/ld+json")
+        raise Exception("There were zero scripts matching the thing")
 
     script = scripts[0]
     data = json.loads(script.string)
